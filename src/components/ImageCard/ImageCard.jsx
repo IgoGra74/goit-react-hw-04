@@ -1,5 +1,9 @@
-const ImageCard = () => {
-  return <div>ImageCard</div>;
+const ImageCard = ({ image }) => {
+  return (
+    <div>
+      <img src={image.urls.small} alt={image.description} />
+    </div>
+  );
 };
 
 export default ImageCard;

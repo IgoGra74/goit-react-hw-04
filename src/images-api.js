@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchImagesWithTopic = async (topic) => {
   const BASE_URL = "https://api.unsplash.com";
-  const END_POINT = "/photos/";
+  const END_POINT = "/search/photos/";
   const ACCESS_KEY = "ePieEpooHVSDfaLGZpFPpKrHAmfSzEKF9sh9R4gAZaU";
   const url = `${BASE_URL}${END_POINT}`;
 
@@ -17,7 +17,6 @@ export const fetchImagesWithTopic = async (topic) => {
   };
 
   const response = await axios.get(url, option);
-  console.log(response);
 
-  return response.data.hits;
+  return response.data.results;
 };

@@ -1,4 +1,4 @@
-// import { useState } from 'react'
+import { useState } from "react";
 
 import "./App.css";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
@@ -9,19 +9,21 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import { fetchImagesWithTopic } from "./images-api";
 
 function App() {
-  // const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(false);
 
+  // useEffect(() => {});
+
   const handleSearch = async (topic) => {
     try {
-      // setImages([]);
+      setImages([]);
       // setError(false);
       // setLoading(true);
       const data = await fetchImagesWithTopic(topic);
-      console.log(data);
-      // setImages(data);
+      setImages(data);
     } catch (error) {
+      console.error("Error fetching images:", error);
       // setError(true);
     } finally {
       // setLoading(false);
@@ -32,7 +34,7 @@ function App() {
     <>
       <SearchBar onSearch={handleSearch} />
       <ErrorMessage />
-      <ImageGallery />
+      {images.length > 0 && <ImageGallery images={images} />}
       <Loader />
       <ImageModal />
     </>
