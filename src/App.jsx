@@ -6,19 +6,35 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import ImageModal from "./components/ImageModal/ImageModal";
 import Loader from "./components/Loader/Loader";
 import SearchBar from "./components/SearchBar/SearchBar";
+import { fetchImagesWithTopic } from "./images-api";
 
 function App() {
-  // const [count, setCount] = useState(0)
+  // const [images, setImages] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
+
+  const handleSearch = async (topic) => {
+    try {
+      // setImages([]);
+      // setError(false);
+      // setLoading(true);
+      const data = await fetchImagesWithTopic(topic);
+      console.log(data);
+      // setImages(data);
+    } catch (error) {
+      // setError(true);
+    } finally {
+      // setLoading(false);
+    }
+  };
 
   return (
     <>
-      <div>
-        <SearchBar />
-        <ErrorMessage />
-        <ImageGallery />
-        <Loader />
-        <ImageModal />
-      </div>
+      <SearchBar onSearch={handleSearch} />
+      <ErrorMessage />
+      <ImageGallery />
+      <Loader />
+      <ImageModal />
     </>
   );
 }
