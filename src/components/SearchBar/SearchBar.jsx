@@ -1,5 +1,3 @@
-import React from "react";
-
 const SearchBar = ({ onSearch }) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
