@@ -12,7 +12,7 @@ export const fetchImagesWithTopic = async (topic) => {
       query: topic,
       orientation: "landscape",
       page: 1,
-      per_page: 10,
+      per_page: 16,
     },
   };
 

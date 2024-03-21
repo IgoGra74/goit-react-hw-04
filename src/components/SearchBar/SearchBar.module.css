@@ -1,11 +1,11 @@
 .header {
     /* position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000; */
-    background-color: rgb(159, 202, 99);
-    padding-top: 10px;
-    padding-bottom: 10px;
+    top: 0; */
+    /* width: 100%; */
+    /* z-index: 1000; */
+    background-color: rgb(107, 146, 52);
+    padding-top: 15px;
+    padding-bottom: 15px;
     margin-bottom: 30px;
 }
 
@@ -15,8 +15,7 @@
     justify-content: center;
     gap: 8px;
     height: 40px;
-
-}
+    }
 
 .input {
     width: 272px;
@@ -24,6 +23,7 @@
     border-radius: 4px;
     border: 1px solid #808080;
     padding: 8px 16px;
+    font-size: 22px;
 }
 
 .button {
@@ -38,7 +38,7 @@
     background-color: #4e75ff;
     color: #fff;
     font-family: Montserrat;
-    font-size: 16px;
+    font-size: 22px;
     font-style: normal;
     font-weight: 500;
     line-height: 1.5;
