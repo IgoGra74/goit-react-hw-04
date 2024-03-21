@@ -1,5 +1,7 @@
-const Loader = () => {
-  return <div>Loader</div>;
-};
+// import { Audio } from "react-loader-spinner";
 
-export default Loader;
+// const Loader = ({ loading }) => {
+//   return <div>Loader</div>;
+// };
+
+// export default Loader;
