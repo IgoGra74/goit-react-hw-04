@@ -12,50 +12,31 @@ import { ThreeDots } from "react-loader-spinner";
 function App() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
 
   // useEffect(() => {});
 
   const handleSearch = async (topic) => {
     try {
       setImages([]);
-      // setError(false);
+      setError(false);
       setLoading(true);
       const data = await fetchImagesWithTopic(topic);
       setImages(data);
     } catch (error) {
-      console.error("Error fetching images:", error);
-      // setError(true);
+      // console.error("Error fetching images:", error);
+      setError(true);
     } finally {
       setLoading(false);
     }
   };
 
-  //   return (
-  //     <>
-  //       <SearchBar onSearch={handleSearch} />
-  //       <ErrorMessage />
-  //       {images.length > 0 && <ImageGallery images={images} />}
-  //       {loading && (
-  //         <ThreeDots
-  //           visible={true}
-  //           height="80"
-  //           width="80"
-  //           color="#4fa94d"
-  //           radius="9"
-  //           ariaLabel="three-dots-loading"
-  //           wrapperStyle={{}}
-  //           wrapperClass=""
-  //         />
-  //       )}
-
-  //       <ImageModal />
-  //     </>
-  //   );
-  // }
   return (
     <div className="app">
       <SearchBar onSearch={handleSearch} />
+      {error && (
+        <p>Whoops, something went wrong! Please try reloading this page!</p>
+      )}
       <ErrorMessage />
       {images.length > 0 && <ImageGallery images={images} />}
       {loading && (
