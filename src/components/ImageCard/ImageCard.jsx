@@ -7,6 +7,7 @@ const ImageCard = ({ image }) => {
         className={css.image}
         src={image.urls.small}
         alt={image.description}
+        key={image.id}
       />
     </div>
   );
