@@ -1,14 +1,14 @@
 #root {
   max-width: 1440px;
   margin: 0 auto;
-  
-  }
+}
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
   font-family: "Roboto", sans-serif;
+  font-style: normal;
 }
 
 h1,

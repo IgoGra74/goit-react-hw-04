@@ -6,11 +6,12 @@
     align-items: center;
     row-gap: 15px;
     column-gap: 15px;
-    /* background-color: rgb(201, 228, 163); */
+    padding-top: 80px;
 }
+
 .item {
     width: calc((100% - 20px) / 4);
-    width: 345px;
+    width: 343px;
     height: 220px;
     cursor: pointer;
     flex-shrink: 0;

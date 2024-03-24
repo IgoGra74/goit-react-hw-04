@@ -6,8 +6,8 @@ const ImageCard = ({ image }) => {
       <img
         className={css.image}
         src={image.urls.small}
-        alt={image.description}
-        key={image.id}
+        alt={image.alt_description}
+        // key={image.id}
       />
     </div>
   );

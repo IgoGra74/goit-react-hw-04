@@ -1,12 +1,12 @@
 .header {
-    /* position: fixed;
-    top: 0; */
-    /* width: 100%; */
-    /* z-index: 1000; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
     background-color: rgb(107, 146, 52);
     padding-top: 15px;
     padding-bottom: 15px;
-    margin-bottom: 30px;
 }
 
 .form {
@@ -15,7 +15,7 @@
     justify-content: center;
     gap: 8px;
     height: 40px;
-    }
+}
 
 .input {
     width: 272px;

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchImagesWithTopic = async (topic) => {
+export const fetchImagesWithTopic = async (topic, currentPage) => {
   const BASE_URL = "https://api.unsplash.com";
   const END_POINT = "/search/photos/";
   const ACCESS_KEY = "ePieEpooHVSDfaLGZpFPpKrHAmfSzEKF9sh9R4gAZaU";
@@ -11,8 +11,8 @@ export const fetchImagesWithTopic = async (topic) => {
       client_id: ACCESS_KEY,
       query: topic,
       orientation: "landscape",
-      page: 1,
-      per_page: 16,
+      page: currentPage,
+      per_page: 15,
     },
   };
 
