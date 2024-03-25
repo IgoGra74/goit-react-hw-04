@@ -19,7 +19,8 @@ function App() {
   const [searchError, setSearchError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [topic, setTopic] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(false);
+  // const [hasMoreResults, setHasMoreResults] = useState(true);
 
   const handleSearch = async (topic) => {
     try {
@@ -49,12 +50,11 @@ function App() {
   };
 
   const openModal = (image) => {
-    setSelectedImage(image); // При кліку на зображення встановлюємо обране зображення
+    setSelectedImage(image);
   };
 
   const closeModal = () => {
-    console.log("Closing modal...");
-    setSelectedImage(null); // Закриття модального вікна
+    setSelectedImage(false);
   };
 
   const loadMoreImages = async () => {
@@ -73,6 +73,29 @@ function App() {
       setLoading(false);
     }
   };
+
+  // const loadMoreImages = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const nextPage = currentPage + 1;
+  //     const data = await fetchImagesWithTopic(topic, nextPage);
+  //     if (data.length === 0) {
+  //       setHasMoreResults(false);
+  //       toast.error("We're sorry, but you've reached the end of search results.");
+  //     } else {
+  //       setImages([...images, ...data]);
+  //       setCurrentPage(nextPage);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error loading more images:", error);
+  //     toast.error(
+  //       "Whoops, something went wrong while loading more images. Please try again!"
+  //     );
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   return (
     <div className="app">
       <SearchBar onSearch={handleSearch} />
@@ -95,15 +118,16 @@ function App() {
       )}
       {images.length > 0 && !loading && (
         <LoadMoreBtn onMoreSearch={loadMoreImages} />
+        // <LoadMoreBtn onMoreSearch={loadMoreImages} hasMoreResults={hasMoreResults} />
       )}
       <ReactModal
-        isOpen={selectedImage !== null}
+        isOpen={selectedImage !== false}
         onRequestClose={closeModal}
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}
         contentLabel="Selected Image Modal"
-        // overlayClassName="overlay"
-        // className="modal"
+        overlayClassName="overlay"
+        className="modal"
         style={{
           overlay: {
             position: "fixed",
@@ -118,17 +142,10 @@ function App() {
           },
           content: {
             position: "absolute",
-            top: "40px",
-            left: "40px",
-            right: "40px",
-            bottom: "40px",
-            border: "1px solid #ccc",
-            background: "#fff",
-            overflow: "auto",
+            overflow: "hidden",
             WebkitOverflowScrolling: "touch",
-            borderRadius: "4px",
+            borderRadius: "3px",
             outline: "none",
-            padding: "20px",
           },
         }}
       >

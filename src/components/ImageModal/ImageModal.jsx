@@ -6,13 +6,13 @@ const ImageModal = ({ image }) => {
   }
 
   return (
-    <div className={css.сontainer}>
+    <div className={css.regular}>
       <img
         src={image.urls.regular}
         alt={image.alt_description}
         className={css.image}
       />
-      <p>{image.description}</p>
+      <p className={css.text}>{image.description}</p>
     </div>
   );
 };
