@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import "./App.css";
 
@@ -14,19 +14,23 @@ import ImageModal from "./components/ImageModal/ImageModal";
 
 function App() {
   const [images, setImages] = useState([]);
+  // null
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [searchError, setSearchError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [topic, setTopic] = useState("");
   const [selectedImage, setSelectedImage] = useState(false);
-  // const [hasMoreResults, setHasMoreResults] = useState(true);
+
+  // useEffect(() => {}, []);
 
   const handleSearch = async (topic) => {
     try {
+      setCurrentPage(1);
       setImages([]);
       setError(false);
       setLoading(true);
+
       const data = await fetchImagesWithTopic(topic, currentPage);
       if (data.length === 0) {
         setSearchError(true);
@@ -61,9 +65,9 @@ function App() {
     try {
       setLoading(true);
       const nextPage = currentPage + 1;
+      setCurrentPage(nextPage);
       const data = await fetchImagesWithTopic(topic, nextPage);
       setImages([...images, ...data]);
-      setCurrentPage(nextPage);
     } catch (error) {
       console.error("Error loading more images:", error);
       toast.error(
@@ -74,28 +78,6 @@ function App() {
     }
   };
 
-  // const loadMoreImages = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const nextPage = currentPage + 1;
-  //     const data = await fetchImagesWithTopic(topic, nextPage);
-  //     if (data.length === 0) {
-  //       setHasMoreResults(false);
-  //       toast.error("We're sorry, but you've reached the end of search results.");
-  //     } else {
-  //       setImages([...images, ...data]);
-  //       setCurrentPage(nextPage);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error loading more images:", error);
-  //     toast.error(
-  //       "Whoops, something went wrong while loading more images. Please try again!"
-  //     );
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   return (
     <div className="app">
       <SearchBar onSearch={handleSearch} />
@@ -104,6 +86,7 @@ function App() {
       {images.length > 0 && (
         <ImageGallery images={images} onImageClick={openModal} />
       )}
+      {/* {Array.isArray(images)} */}
       {loading && (
         <div className="loading">
           <ThreeDots
@@ -118,7 +101,6 @@ function App() {
       )}
       {images.length > 0 && !loading && (
         <LoadMoreBtn onMoreSearch={loadMoreImages} />
-        // <LoadMoreBtn onMoreSearch={loadMoreImages} hasMoreResults={hasMoreResults} />
       )}
       <ReactModal
         isOpen={selectedImage !== false}

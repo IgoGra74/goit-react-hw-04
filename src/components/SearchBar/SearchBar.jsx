@@ -1,7 +1,7 @@
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
 
-const SearchBar = ({ onSearch, currentPage }) => {
+const SearchBar = ({ onSearch }) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
