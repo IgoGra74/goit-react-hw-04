@@ -7,67 +7,62 @@ ReactModal.setAppElement("#root");
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import SearchBar from "./components/SearchBar/SearchBar";
 import { fetchImagesWithTopic } from "./images-api";
-import { ThreeDots } from "react-loader-spinner";
 import toast, { Toaster } from "react-hot-toast";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
+import Loader from "./components/Loader/Loader";
 
 function App() {
-  const [images, setImages] = useState([]);
-  // null
+  const [images, setImages] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [searchError, setSearchError] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1); // Начальная страница теперь 1
   const [topic, setTopic] = useState("");
-  const [selectedImage, setSelectedImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null); // Изменение начального состояния на null
 
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    if (topic.length === 0) return;
 
-  const handleSearch = async (topic) => {
-    try {
-      setCurrentPage(1);
-      setImages([]);
-      setError(false);
-      setLoading(true);
+    async function fetchImages() {
+      try {
+        setError(false);
+        setLoading(true);
 
-      const data = await fetchImagesWithTopic(topic, currentPage);
-      if (data.length === 0) {
-        setSearchError(true);
+        const data = await fetchImagesWithTopic(topic, page);
+        if (data.results.length === 0) {
+          // Исправление проверки на длину результата
+          setSearchError(true);
+          toast.error(
+            "Sorry, there are no images matching your search query. Please try again"
+          );
+        } else {
+          setSearchError(false);
+
+          setImages(data.results);
+        }
+      } catch (error) {
+        setError(true);
         toast.error(
-          "Sorry, there are no images matching your search query. Please try again"
+          "Whoops, something went wrong! Please try reloading this page!"
         );
-      } else {
-        setSearchError(false);
-        setImages(data);
-        setTopic(topic);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching images:", error);
-      setError(true);
-      toast.error(
-        "Whoops, something went wrong! Please try reloading this page!"
-      );
-    } finally {
-      setLoading(false);
     }
-  };
 
-  const openModal = (image) => {
-    setSelectedImage(image);
-  };
-
-  const closeModal = () => {
-    setSelectedImage(false);
-  };
+    fetchImages();
+  }, [topic, page]);
 
   const loadMoreImages = async () => {
     try {
       setLoading(true);
-      const nextPage = currentPage + 1;
-      setCurrentPage(nextPage);
-      const data = await fetchImagesWithTopic(topic, nextPage);
-      setImages([...images, ...data]);
+      setPage(page + 1);
+      // const nextPage = page + 1;
+      const data = await fetchImagesWithTopic(topic, page);
+      setImages((prevImages) =>
+        prevImages ? [...prevImages, ...data.results] : []
+      );
     } catch (error) {
       console.error("Error loading more images:", error);
       toast.error(
@@ -78,32 +73,29 @@ function App() {
     }
   };
 
+  const onSearchImage = (searchImage) => {
+    // setPage(1); // Сброс страницы при новом поиске
+    setTopic(searchImage);
+  };
+
+  const openModal = (image) => {
+    setSelectedImage(image);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null); // Закрытие модального окна путем сброса выбранного изображения
+  };
+
   return (
     <div className="app">
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearchImage={onSearchImage} />
       {error && <Toaster position="top-left" reverseOrder={false} />}
       {searchError && <Toaster position="top-left" reverseOrder={false} />}
-      {images.length > 0 && (
-        <ImageGallery images={images} onImageClick={openModal} />
-      )}
-      {/* {Array.isArray(images)} */}
-      {loading && (
-        <div className="loading">
-          <ThreeDots
-            visible={true}
-            height="80"
-            width="80"
-            color="#4fa94d"
-            radius="9"
-            ariaLabel="three-dots-loading"
-          />
-        </div>
-      )}
-      {images.length > 0 && !loading && (
-        <LoadMoreBtn onMoreSearch={loadMoreImages} />
-      )}
+      {images && <ImageGallery images={images} onImageClick={openModal} />}
+      {loading && <Loader />}
+      {images && !loading && <LoadMoreBtn onMoreSearch={loadMoreImages} />}
       <ReactModal
-        isOpen={selectedImage !== false}
+        isOpen={selectedImage !== null} // Проверка на null вместо false
         onRequestClose={closeModal}
         shouldCloseOnOverlayClick={true}
         shouldCloseOnEsc={true}

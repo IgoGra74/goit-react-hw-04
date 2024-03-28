@@ -1,7 +1,7 @@
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearchImage }) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
@@ -12,7 +12,7 @@ const SearchBar = ({ onSearch }) => {
       toast.error("Please enter search term!");
       return;
     }
-    onSearch(topic);
+    onSearchImage(topic);
     form.reset();
   };
 
