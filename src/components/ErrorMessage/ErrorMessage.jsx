@@ -1,5 +1,7 @@
+import { Toaster } from "react-hot-toast";
+
 const ErrorMessage = () => {
-  return <div>ErrorMessage</div>;
+  return <Toaster position="top-left" reverseOrder={false} />;
 };
 
 export default ErrorMessage;

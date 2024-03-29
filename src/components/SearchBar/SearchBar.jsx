@@ -1,5 +1,6 @@
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import css from "./SearchBar.module.css";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const SearchBar = ({ onSearchImage }) => {
   const handleSubmit = (evt) => {
@@ -30,19 +31,7 @@ const SearchBar = ({ onSearchImage }) => {
         <button className={css.button} type="submit">
           Search
         </button>
-        <Toaster
-          toastOptions={{
-            className: "",
-            style: {
-              border: "1px solid #713200",
-              padding: "1px",
-              color: "#000000",
-              background: "#fbeeee",
-            },
-          }}
-          position="top-left"
-          reverseOrder={false}
-        />
+        <ErrorMessage />
       </form>
     </header>
   );

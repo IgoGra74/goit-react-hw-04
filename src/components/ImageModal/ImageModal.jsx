@@ -12,7 +12,7 @@ const ImageModal = ({ image }) => {
         alt={image.alt_description}
         className={css.image}
       />
-      <p className={css.text}>{image.description}</p>
+      <p className={css.text}>{image.alt_description}</p>
     </div>
   );
 };

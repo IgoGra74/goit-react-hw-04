@@ -7,20 +7,22 @@ Modal.setAppElement("#root");
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import SearchBar from "./components/SearchBar/SearchBar";
 import { fetchImagesWithTopic } from "./images-api";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import Loader from "./components/Loader/Loader";
+import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
 function App() {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [searchError, setSearchError] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(null);
   const [topic, setTopic] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [showBtn, setShowBtn] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (topic.length === 0) return;
@@ -60,6 +62,14 @@ function App() {
     fetchImages();
   }, [topic, page]);
 
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+  }, [modalOpen]);
+
   const onSearchImage = (searchImage) => {
     setPage(1);
     setImages([]);
@@ -68,10 +78,12 @@ function App() {
 
   const openModal = (image) => {
     setSelectedImage(image);
+    setModalOpen(true);
   };
 
   const closeModal = () => {
     setSelectedImage(null);
+    setModalOpen(false);
   };
 
   const onMoreLoad = () => {
@@ -81,8 +93,8 @@ function App() {
   return (
     <div className="app">
       <SearchBar onSearchImage={onSearchImage} />
-      {error && <Toaster position="top-left" reverseOrder={false} />}
-      {searchError && <Toaster position="top-left" reverseOrder={false} />}
+      {error && <ErrorMessage />}
+      {searchError && <ErrorMessage />}
       {images && <ImageGallery images={images} onImageClick={openModal} />}
       {loading && <Loader />}
       {showBtn && images.length > 0 && !loading && (
