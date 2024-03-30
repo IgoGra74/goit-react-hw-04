@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import Modal from "react-modal";
 import "./App.css";
-
-Modal.setAppElement("#root");
-
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import SearchBar from "./components/SearchBar/SearchBar";
 import { fetchImagesWithTopic } from "./images-api";
@@ -62,14 +58,6 @@ function App() {
     fetchImages();
   }, [topic, page]);
 
-  useEffect(() => {
-    if (modalOpen) {
-      document.body.classList.add("modal-open");
-    } else {
-      document.body.classList.remove("modal-open");
-    }
-  }, [modalOpen]);
-
   const onSearchImage = (searchImage) => {
     setPage(1);
     setImages([]);
@@ -95,43 +83,18 @@ function App() {
       <SearchBar onSearchImage={onSearchImage} />
       {error && <ErrorMessage />}
       {searchError && <ErrorMessage />}
-      {images && <ImageGallery images={images} onImageClick={openModal} />}
+      {images && <ImageGallery images={images} openModal={openModal} />}
       {loading && <Loader />}
       {showBtn && images.length > 0 && !loading && (
         <LoadMoreBtn onMoreLoad={onMoreLoad} />
       )}
-
-      <Modal
-        isOpen={selectedImage !== null}
-        onRequestClose={closeModal}
-        shouldCloseOnOverlayClick={true}
-        shouldCloseOnEsc={true}
-        contentLabel="Selected Image Modal"
-        overlayClassName="overlay"
-        className="modal"
-        style={{
-          overlay: {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.75)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          },
-          content: {
-            position: "absolute",
-            overflow: "hidden",
-            WebkitOverflowScrolling: "touch",
-            borderRadius: "3px",
-            outline: "none",
-          },
-        }}
-      >
-        {selectedImage && <ImageModal image={selectedImage} />}
-      </Modal>
+      {selectedImage && (
+        <ImageModal
+          image={selectedImage}
+          modalOpen={modalOpen}
+          closeModal={closeModal}
+        />
+      )}
     </div>
   );
 }

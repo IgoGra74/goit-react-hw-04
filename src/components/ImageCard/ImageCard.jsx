@@ -1,6 +1,6 @@
 import css from "./ImageCard.module.css";
 
-const ImageCard = ({ image }) => {
+const ImageCard = ({ image, openModal }) => {
   return (
     <div>
       <img
@@ -8,6 +8,7 @@ const ImageCard = ({ image }) => {
         src={image.urls.small}
         alt={image.alt_description}
         key={image.id}
+        onClick={() => openModal(image)}
       />
     </div>
   );
